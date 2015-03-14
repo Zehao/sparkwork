@@ -1,4 +1,4 @@
-package com.spark.MyPI
+package org.apache.spark.MyPI
 
 import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
@@ -10,7 +10,9 @@ import scala.math._
  */
 object MyPI {
   def main(args: Array[String]) {
-    val conf = new SparkConf().setAppName("MyPI")
+    //val conf = new SparkConf().setAppName("MyPI")
+    //for local
+    val conf = new SparkConf().setAppName("MyPI").setMaster("local[*]")
     val spark = new SparkContext(conf)
     val slices = if (args.length > 0) args(0).toInt else 2
     val n = 100000 * slices
