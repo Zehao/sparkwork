@@ -1,4 +1,4 @@
-package org.apache.spark.MyPI
+package org.apache.spark
 
 import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
@@ -19,7 +19,7 @@ object MyPI {
     val count = spark.parallelize(1 to n, slices).map { i =>
       val x = random * 2 - 1
       val y = random * 2 - 1
-      if (x*x + y*y < 1) 1 else 0
+      if (x * x + y * y < 1) 1 else 0
     }.reduce(_ + _)
     println("Pi is roughly " + 4.0 * count / n)
     spark.stop()

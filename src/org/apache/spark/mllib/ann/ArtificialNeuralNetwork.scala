@@ -408,9 +408,9 @@ private[ann] trait NeuralHelper {
 
   /**
    *
-   * 将权值向量转化为topology的矩阵和偏正值向量
+   * 灏嗘潈鍊煎悜閲忚浆鍖栦负topology鐨勭煩闃靛拰鍋忔­ｅ€煎悜閲
    *
-   * @param weights  向量
+   * @param weights  鍚戦噺
    * @return
    */
   protected def unrollWeights(weights: linalg.Vector): (Array[BDM[Double]], Array[BDV[Double]]) = {
@@ -431,7 +431,7 @@ private[ann] trait NeuralHelper {
 
 
   /**
-   * 改变weight权值
+   * 鏀瑰彉weight鏉冨€¼
    * @param weightMatricesUpdate
    * @param biasUpdate
    * @param cumGradient
@@ -439,7 +439,7 @@ private[ann] trait NeuralHelper {
   protected def rollWeights(weightMatricesUpdate: Array[BDM[Double]],
                             biasUpdate: Array[BDV[Double]],
                             cumGradient: Vector): Unit = {
-    val wu = cumGradient.toArray //cumGradient必须是DenseVector
+    val wu = cumGradient.toArray //cumGradient蹇呴』鏄疍enseVector
     var offset = 0
     for (i <- 1 until topology.length) {
       var k = 0
@@ -459,8 +459,8 @@ private[ann] trait NeuralHelper {
   }
 
   /**
-   * 计算输出矩阵
-   * @param data  输入数据
+   * 璁＄畻杈撳嚭鐭╅樀
+   * @param data  杈撳叆鏁版嵁
    * @param weightMatrices
    * @param bias
    * @return

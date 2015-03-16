@@ -1,4 +1,4 @@
-package org.apache.spark.MyKMeans
+package org.apache.spark
 
 import breeze.linalg.{Vector, DenseVector, squaredDistance}
 
