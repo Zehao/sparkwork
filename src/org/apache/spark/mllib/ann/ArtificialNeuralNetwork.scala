@@ -63,17 +63,18 @@ import org.apache.spark.util.random.XORShiftRandom
 /**
  * Artificial neural network (ANN) model
  *
- * @param weights the weights between the neurons in the ANN.
- * @param topology array containing the number of nodes per layer in the network, including
- *                 the nodes in the input and output layer, but excluding the bias nodes.
+ * @param weights 权重向量
+ * @param topology 从输入层到输出层的每层的节点数量, 不包括修正节点
+ *
  */
 class ArtificialNeuralNetworkModel private[mllib](val weights: Vector, val topology: Array[Int])
   extends Serializable with NeuralHelper {
 
   val (weightMatrices, bias) = unrollWeights(weights)
 
+
   /**
-   * Predicts values for a single data point using the trained model.
+   * 预测单个输入的输出
    *
    * @param testData represents a single data point.
    * @return prediction using the trained model.
@@ -83,7 +84,7 @@ class ArtificialNeuralNetworkModel private[mllib](val weights: Vector, val topol
   }
 
   /**
-   * Predict values for an RDD of data points using the trained model.
+   * 输入为RDD
    *
    * @param testDataRDD RDD representing the input vectors.
    * @return RDD with predictions using the trained model as (input, output) pairs.
@@ -94,7 +95,6 @@ class ArtificialNeuralNetworkModel private[mllib](val weights: Vector, val topol
 
   private def computeValues(testData: Vector, layer: Int): Array[Double] = {
     require(layer >= 0 && layer < topology.length)
-    /* TODO: BDM */
     val outputs = forwardRun(testData.toBreeze.toDenseVector.toDenseMatrix.t, weightMatrices, bias)
     outputs(layer).toArray
   }
@@ -407,10 +407,8 @@ private[ann] trait NeuralHelper {
 
 
   /**
-   *
-   * 灏嗘潈鍊煎悜閲忚浆鍖栦负topology鐨勭煩闃靛拰鍋忔­ｅ€煎悜閲
-   *
-   * @param weights  鍚戦噺
+   * 将权重矩阵和修正的节点取出
+   * @param weights
    * @return
    */
   protected def unrollWeights(weights: linalg.Vector): (Array[BDM[Double]], Array[BDV[Double]]) = {
@@ -431,7 +429,7 @@ private[ann] trait NeuralHelper {
 
 
   /**
-   * 鏀瑰彉weight鏉冨€¼
+   *将权重矩阵和修正节点变成单行向量
    * @param weightMatricesUpdate
    * @param biasUpdate
    * @param cumGradient
@@ -439,7 +437,7 @@ private[ann] trait NeuralHelper {
   protected def rollWeights(weightMatricesUpdate: Array[BDM[Double]],
                             biasUpdate: Array[BDV[Double]],
                             cumGradient: Vector): Unit = {
-    val wu = cumGradient.toArray //cumGradient蹇呴』鏄疍enseVector
+    val wu = cumGradient.toArray
     var offset = 0
     for (i <- 1 until topology.length) {
       var k = 0
@@ -459,8 +457,8 @@ private[ann] trait NeuralHelper {
   }
 
   /**
-   * 璁＄畻杈撳嚭鐭╅樀
-   * @param data  杈撳叆鏁版嵁
+   *将数据前向传播运行一次，得到每层的输出，outArray(0)为数据本身，outArray(topology.size -1)为最后的输出
+   * @param data
    * @param weightMatrices
    * @param bias
    * @return
@@ -476,6 +474,8 @@ private[ann] trait NeuralHelper {
     }
     outArray
   }
+
+
 
   protected def wGradient(weightMatrices: Array[BDM[Double]],
                           targetOutput: BDM[Double],

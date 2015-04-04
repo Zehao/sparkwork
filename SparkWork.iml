@@ -9,5 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="scala-sdk-2.10.4" level="application" />
     <orderEntry type="library" name="spark-assembly-1.1.0-hadoop2.4.0" level="project" />
+    <orderEntry type="library" name="breeze_2.10-0.9" level="project" />
+    <orderEntry type="library" name="scopt_2.10-3.2.0" level="project" />
   </component>
 </module>
